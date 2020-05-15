@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-const value1 = Math.floor(Math.random() * 100);
-const value2 = Math.floor(Math.random() * 100);
-const value3 = Math.floor(Math.random() * 100);
-const proposedAnswer = Math.floor(Math.random() * 3) + value1 + value2 + value3;
-const numQuestions = 0;
-const numCorrect = 0;
+import Score from './Score.js';
+import Game from './Game.js';
 
 class App extends Component {
+  
+  state = {
+   	numQuestions: 0,
+    numCorrect: 0
+  }
+
+  updateScore = (result) => {
+    if (!result) {
+      this.setState({
+        numQuestions: this.state.numQuestions + 1
+      });
+    } else {
+      this.setState({
+        numCorrect: this.state.numCorrect + 1,
+        numQuestions: this.state.numQuestions + 1
+      });
+    }
+  }
+  
   render() {
     return (
       <div className="App">
@@ -19,14 +33,9 @@ class App extends Component {
         </header>
         <div className="game">
           <h2>Mental Math</h2>
-          <div className="equation">
-            <p className="text">{`${value1} + ${value2} + ${value3} = ${proposedAnswer}`}</p>
-          </div>
-          <button>True</button>
-          <button>False</button>
-          <p className="text">
-            Your Score: {numCorrect}/{numQuestions}
-          </p>
+
+		  <Game updateScore={this.updateScore}/>
+          <Score numQuestions={this.state.numQuestions} numCorrect={this.state.numCorrect}/>
         </div>
       </div>
     );
